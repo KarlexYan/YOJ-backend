@@ -1,6 +1,5 @@
 package com.karlexyan.yoj.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.karlexyan.yoj.common.ErrorCode;
 import com.karlexyan.yoj.exception.BusinessException;
@@ -13,7 +12,6 @@ import com.karlexyan.yoj.service.QuestionService;
 import com.karlexyan.yoj.service.QuestionSubmitService;
 import com.karlexyan.yoj.mapper.QuestionSubmitMapper;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 
