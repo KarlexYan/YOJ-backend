@@ -126,10 +126,8 @@ public class QuestionSubmitServiceImpl extends ServiceImpl<QuestionSubmitMapper,
         // 脱敏：仅本人（提交userId和登录用户id相同）和管理员能看见提交的代码
         Long userId = loginUser.getId();
         // 处理脱敏
-        if(!userService.isAdmin(loginUser)){
-            if(!userId.equals(questionSubmit.getUserId())){
-                questionSubmitVO.setSubmitCode(null);
-            }
+        if(!userId.equals(questionSubmit.getUserId()) && !userService.isAdmin(loginUser)){
+            questionSubmitVO.setSubmitCode(null);
         }
         return questionSubmitVO;
     }
