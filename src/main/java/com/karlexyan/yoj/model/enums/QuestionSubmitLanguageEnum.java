@@ -8,10 +8,10 @@ import java.util.stream.Collectors;
 
 public enum QuestionSubmitLanguageEnum {
     // 编程语言枚举
-    JAVA("Java", "java"),
-    CPLUSPLUS("CPP", "cpp"),
-    GOLANG("GO", "go"),
-    HTML("Html", "html");
+    JAVA("java", "java"),
+    CPLUSPLUS("cpp", "cpp"),
+    GOLANG("go", "go"),
+    HTML("html","html");
 
     private final String text;
 
