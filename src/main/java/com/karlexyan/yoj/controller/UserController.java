@@ -6,7 +6,6 @@ import com.karlexyan.yoj.common.BaseResponse;
 import com.karlexyan.yoj.common.DeleteRequest;
 import com.karlexyan.yoj.common.ErrorCode;
 import com.karlexyan.yoj.common.ResultUtils;
-import com.karlexyan.yoj.config.WxOpenConfig;
 import com.karlexyan.yoj.constant.UserConstant;
 import com.karlexyan.yoj.exception.BusinessException;
 import com.karlexyan.yoj.exception.ThrowUtils;
@@ -32,15 +31,12 @@ import me.chanjar.weixin.common.bean.oauth2.WxOAuth2AccessToken;
 import me.chanjar.weixin.mp.api.WxMpService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
-import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import static com.karlexyan.yoj.service.impl.UserServiceImpl.SALT;
 
 /**
  * 用户接口
@@ -53,9 +49,6 @@ public class UserController {
 
     @Resource
     private UserService userService;
-
-    @Resource
-    private WxOpenConfig wxOpenConfig;
 
     // region 登录相关
 
@@ -101,28 +94,6 @@ public class UserController {
         return ResultUtils.success(loginUserVO);
     }
 
-    /**
-     * 用户登录（微信开放平台）
-     */
-    @GetMapping("/login/wx_open")
-    public BaseResponse<LoginUserVO> userLoginByWxOpen(HttpServletRequest request, HttpServletResponse response,
-            @RequestParam("code") String code) {
-        WxOAuth2AccessToken accessToken;
-        try {
-            WxMpService wxService = wxOpenConfig.getWxMpService();
-            accessToken = wxService.getOAuth2Service().getAccessToken(code);
-            WxOAuth2UserInfo userInfo = wxService.getOAuth2Service().getUserInfo(accessToken, code);
-            String unionId = userInfo.getUnionId();
-            String mpOpenId = userInfo.getOpenid();
-            if (StringUtils.isAnyBlank(unionId, mpOpenId)) {
-                throw new BusinessException(ErrorCode.SYSTEM_ERROR, "登录失败，系统错误");
-            }
-            return ResultUtils.success(userService.userLoginByMpOpen(userInfo, request));
-        } catch (Exception e) {
-            log.error("userLoginByWxOpen error", e);
-            throw new BusinessException(ErrorCode.SYSTEM_ERROR, "登录失败，系统错误");
-        }
-    }
 
     /**
      * 用户注销

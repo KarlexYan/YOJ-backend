@@ -69,12 +69,13 @@ public class JudgeServiceImpl implements JudgeService{
         String judgeCaseStr = question.getJudgeCase();
         List<JudgeCase> judgeCaseList = JSONUtil.toList(judgeCaseStr, JudgeCase.class);
         List<String> inputList = judgeCaseList.stream().map(JudgeCase::getInput).collect(Collectors.toList());
+        // 调用沙箱
         ExecuteCodeRequest executeCodeRequest = ExecuteCodeRequest.builder()
                 .code(code)
                 .language(language)
                 .inputList(inputList)
                 .build();
-        ExecuteCodeResponse executeCodeResponse = codeSandbox.executeCode(executeCodeRequest);
+        ExecuteCodeResponse executeCodeResponse = codeSandbox.executeCode(executeCodeRequest);  // 执行
         List<String> outputList = executeCodeResponse.getOutputList();
         //5. 根据沙箱的执行结果，设置题目的判题状态和信息
         JudgeContext judgeContext = new JudgeContext();

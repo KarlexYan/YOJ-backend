@@ -1,16 +1,12 @@
 package com.karlexyan.yoj.model.vo;
 
 import cn.hutool.json.JSONUtil;
-import com.karlexyan.yoj.model.dto.question.JudgeConfig;
 import com.karlexyan.yoj.model.dto.questionsubmit.JudgeInfo;
-import com.karlexyan.yoj.model.entity.Question;
 import com.karlexyan.yoj.model.entity.QuestionSubmit;
 import lombok.Data;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 
 import java.util.Date;
-import java.util.List;
 
 @Data
 public class QuestionSubmitVO {
@@ -20,9 +16,19 @@ public class QuestionSubmitVO {
     private Long id;
 
     /**
-     * 创建题目用户 id
+     * 题目 id
+     */
+    private Long questionId;
+
+    /**
+     * 创建用户 id
      */
     private Long userId;
+
+    /**
+     * 判题信息
+     */
+    private JudgeInfo judgeInfo;
 
     /**
      * 编程语言
@@ -35,19 +41,9 @@ public class QuestionSubmitVO {
     private String submitCode;
 
     /**
-     * 判题信息
-     */
-    private JudgeInfo judgeInfo;
-
-    /**
      * 判题状态（0 - 待判题、1 - 判题中、2 - 成功、3 - 失败）
      */
     private Integer submitState;
-
-    /**
-     * 题目 id
-     */
-    private Long questionId;
 
     /**
      * 创建时间
@@ -60,15 +56,14 @@ public class QuestionSubmitVO {
     private Date updateTime;
 
     /**
-     * 创建人信息
+     * 提交用户脱敏信息
      */
     private UserVO userVO;
 
     /**
-     * 题目信息
+     * 对应题目信息
      */
     private QuestionVO questionVO;
-
 
     /**
      * 包装类转对象
@@ -84,9 +79,8 @@ public class QuestionSubmitVO {
         BeanUtils.copyProperties(questionSubmitVO, questionSubmit);
         JudgeInfo judgeInfoObj = questionSubmitVO.getJudgeInfo();
         if (judgeInfoObj != null) {
-            questionSubmit.setJudgeInfo(JSONUtil.toJsonStr(judgeInfoObj)); // List转String
+            questionSubmit.setJudgeInfo(JSONUtil.toJsonStr(judgeInfoObj));
         }
-
         return questionSubmit;
     }
 
@@ -102,10 +96,9 @@ public class QuestionSubmitVO {
         }
         QuestionSubmitVO questionSubmitVO = new QuestionSubmitVO();
         BeanUtils.copyProperties(questionSubmit, questionSubmitVO);
-
         String judgeInfoStr = questionSubmit.getJudgeInfo();
+        // 转换成包装类
         questionSubmitVO.setJudgeInfo(JSONUtil.toBean(judgeInfoStr, JudgeInfo.class));
-
         return questionSubmitVO;
     }
 

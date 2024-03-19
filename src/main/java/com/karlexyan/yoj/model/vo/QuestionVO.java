@@ -38,7 +38,7 @@ public class QuestionVO {
     private List<String> tags;
 
     /**
-     * 判题配置（json 对象）
+     * 判题配置
      */
     private JudgeConfig judgeConfig;
 
@@ -73,7 +73,7 @@ public class QuestionVO {
     private Date updateTime;
 
     /**
-     * 创建人信息
+     * 用户封装类
      */
     private UserVO userVO;
 
@@ -89,17 +89,14 @@ public class QuestionVO {
         }
         Question question = new Question();
         BeanUtils.copyProperties(questionVO, question);
-
         List<String> tagList = questionVO.getTags();
-        if (tagList != null && !tagList.isEmpty()) {
-            question.setTags(JSONUtil.toJsonStr(tagList));  // List转String
+        if (tagList != null) {
+            question.setTags(JSONUtil.toJsonStr(tagList));
         }
-
-        JudgeConfig judgeConfig = questionVO.getJudgeConfig();
-        if (judgeConfig != null) {
-            question.setJudgeConfig(JSONUtil.toJsonStr(judgeConfig)); // List转String
+        JudgeConfig voJudgeConfig = questionVO.getJudgeConfig();
+        if (voJudgeConfig != null) {
+            question.setJudgeConfig(JSONUtil.toJsonStr(voJudgeConfig));
         }
-
         return question;
     }
 
@@ -115,18 +112,11 @@ public class QuestionVO {
         }
         QuestionVO questionVO = new QuestionVO();
         BeanUtils.copyProperties(question, questionVO);
-
-        String tags = question.getTags();
-        if(StringUtils.isNotBlank(tags)){
-            List<String> tagList = JSONUtil.toList(tags, String.class); // String转List
-            questionVO.setTags(tagList);
-        }
-
-        String judgeConfigStr = question.getJudgeConfig();
-        if(StringUtils.isNotBlank(judgeConfigStr)){
-            JudgeConfig judgeConfig = JSONUtil.toBean(judgeConfigStr, JudgeConfig.class);
-            questionVO.setJudgeConfig(judgeConfig);
-        }
+        // 转换成包装类
+        List<String> tagList = JSONUtil.toList(question.getTags(), String.class);
+        questionVO.setTags(tagList);
+        String judgeConfig = question.getJudgeConfig();
+        questionVO.setJudgeConfig(JSONUtil.toBean(judgeConfig, JudgeConfig.class));
         return questionVO;
     }
 

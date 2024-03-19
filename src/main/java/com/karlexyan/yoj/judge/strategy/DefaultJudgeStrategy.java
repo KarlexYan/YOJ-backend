@@ -23,12 +23,15 @@ public class DefaultJudgeStrategy implements JudgeStrategy {
         Long time = judgeInfo.getTime();
         List<String> inputList = judgeContext.getInputList();
         List<String> outputList = judgeContext.getOutputList();
-        Question question = judgeContext.getQuestion();
         List<JudgeCase> judgeCaseList = judgeContext.getJudgeCaseList();
+        Question question = judgeContext.getQuestion();
+
+        // 返回结果
         JudgeInfoMessageEnum judgeInfoMessageEnum = JudgeInfoMessageEnum.ACCEPTED;
         JudgeInfo judgeInfoResponse = new JudgeInfo();
         judgeInfoResponse.setMemory(memory);
         judgeInfoResponse.setTime(time);
+
         // 先判断沙箱执行的结果输出数量是否和预期输出数量相等
         if (outputList.size() != inputList.size()) {
             judgeInfoMessageEnum = JudgeInfoMessageEnum.WRONG_ANSWER;
@@ -44,6 +47,7 @@ public class DefaultJudgeStrategy implements JudgeStrategy {
                 return judgeInfoResponse;
             }
         }
+
         // 判断题目限制
         String judgeConfigStr = question.getJudgeConfig();
         JudgeConfig judgeConfig = JSONUtil.toBean(judgeConfigStr, JudgeConfig.class);

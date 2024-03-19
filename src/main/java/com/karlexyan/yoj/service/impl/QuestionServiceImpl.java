@@ -4,6 +4,7 @@ import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.google.gson.Gson;
 import com.karlexyan.yoj.common.ErrorCode;
 import com.karlexyan.yoj.constant.CommonConstant;
 import com.karlexyan.yoj.exception.BusinessException;
@@ -33,6 +34,8 @@ import java.util.stream.Collectors;
 @Service
 public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question>
     implements QuestionService{
+
+    private final static Gson GSON = new Gson();
     @Resource
     private UserService userService;
 

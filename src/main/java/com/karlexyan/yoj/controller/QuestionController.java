@@ -1,6 +1,5 @@
 package com.karlexyan.yoj.controller;
 
-import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.gson.Gson;
 import com.karlexyan.yoj.annotation.AuthCheck;

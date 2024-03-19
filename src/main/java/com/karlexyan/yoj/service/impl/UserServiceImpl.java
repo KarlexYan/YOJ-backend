@@ -107,37 +107,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         return this.getLoginUserVO(user);
     }
 
-    @Override
-    public LoginUserVO userLoginByMpOpen(WxOAuth2UserInfo wxOAuth2UserInfo, HttpServletRequest request) {
-        String unionId = wxOAuth2UserInfo.getUnionId();
-        String mpOpenId = wxOAuth2UserInfo.getOpenid();
-        // 单机锁
-        synchronized (unionId.intern()) {
-            // 查询用户是否已存在
-            QueryWrapper<User> queryWrapper = new QueryWrapper<>();
-            queryWrapper.eq("unionId", unionId);
-            User user = this.getOne(queryWrapper);
-            // 被封号，禁止登录
-            if (user != null && UserRoleEnum.BAN.getValue().equals(user.getUserRole())) {
-                throw new BusinessException(ErrorCode.FORBIDDEN_ERROR, "该用户已被封，禁止登录");
-            }
-            // 用户不存在则创建
-            if (user == null) {
-                user = new User();
-                user.setUnionId(unionId);
-                user.setMpOpenId(mpOpenId);
-                user.setUserAvatar(wxOAuth2UserInfo.getHeadImgUrl());
-                user.setUserName(wxOAuth2UserInfo.getNickname());
-                boolean result = this.save(user);
-                if (!result) {
-                    throw new BusinessException(ErrorCode.SYSTEM_ERROR, "登录失败");
-                }
-            }
-            // 记录用户的登录态
-            request.getSession().setAttribute(USER_LOGIN_STATE, user);
-            return getLoginUserVO(user);
-        }
-    }
 
     /**
      * 获取当前登录用户
@@ -249,8 +218,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             throw new BusinessException(ErrorCode.PARAMS_ERROR, "请求参数为空");
         }
         Long id = userQueryRequest.getId();
-        String unionId = userQueryRequest.getUnionId();
-        String mpOpenId = userQueryRequest.getMpOpenId();
+        String userAccount = userQueryRequest.getUserAccount();
+        String gender = userQueryRequest.getGender();
+        String phone = userQueryRequest.getPhone();
+        String email = userQueryRequest.getEmail();
+        String userStatus = userQueryRequest.getUserState();
         String userName = userQueryRequest.getUserName();
         String userProfile = userQueryRequest.getUserProfile();
         String userRole = userQueryRequest.getUserRole();
@@ -258,11 +230,14 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         String sortOrder = userQueryRequest.getSortOrder();
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq(id != null, "id", id);
-        queryWrapper.eq(StringUtils.isNotBlank(unionId), "unionId", unionId);
-        queryWrapper.eq(StringUtils.isNotBlank(mpOpenId), "mpOpenId", mpOpenId);
         queryWrapper.eq(StringUtils.isNotBlank(userRole), "userRole", userRole);
-        queryWrapper.like(StringUtils.isNotBlank(userProfile), "userProfile", userProfile);
+        queryWrapper.like(StringUtils.isNotBlank(userAccount), "userAccount", userAccount);
+        queryWrapper.eq(StringUtils.isNotBlank(gender), "gender", gender);
+        queryWrapper.like(StringUtils.isNotBlank(phone), "phone", phone);
+        queryWrapper.like(StringUtils.isNotBlank(email), "email", email);
+        queryWrapper.eq(StringUtils.isNotBlank(userStatus), "userStatus", userStatus);
         queryWrapper.like(StringUtils.isNotBlank(userName), "userName", userName);
+        queryWrapper.like(StringUtils.isNotBlank(userProfile), "userProfile", userProfile);
         queryWrapper.orderBy(SqlUtils.validSortField(sortField), sortOrder.equals(CommonConstant.SORT_ORDER_ASC),
                 sortField);
         return queryWrapper;
