@@ -101,4 +101,4 @@ knife4j:
           - com.karlexyan.yoj.controller
 # 代码沙箱配置
 codesandbox:
-  type: example
+  type: remote

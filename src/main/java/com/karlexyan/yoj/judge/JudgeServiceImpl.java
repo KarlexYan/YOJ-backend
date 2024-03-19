@@ -17,11 +17,13 @@ import com.karlexyan.yoj.model.enums.QuestionSubmitStatusEnum;
 import com.karlexyan.yoj.service.QuestionService;
 import com.karlexyan.yoj.service.QuestionSubmitService;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Service
 public class JudgeServiceImpl implements JudgeService{
 
     @Resource
