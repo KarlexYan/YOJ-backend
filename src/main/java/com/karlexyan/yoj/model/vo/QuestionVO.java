@@ -4,7 +4,6 @@ import cn.hutool.json.JSONUtil;
 import com.karlexyan.yoj.model.dto.question.JudgeConfig;
 import com.karlexyan.yoj.model.entity.Question;
 import lombok.Data;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 
 import java.util.Date;
@@ -31,6 +30,11 @@ public class QuestionVO {
      * 内容
      */
     private String content;
+
+    /**
+     * 答案
+     */
+    private String answer;
 
     /**
      * 标签列表
