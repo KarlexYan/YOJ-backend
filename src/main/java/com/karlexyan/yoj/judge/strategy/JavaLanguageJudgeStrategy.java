@@ -16,16 +16,23 @@ import java.util.Optional;
 public class JavaLanguageJudgeStrategy implements JudgeStrategy{
     @Override
     public JudgeInfo doJudge(JudgeContext judgeContext) {
+        JudgeInfoMessageEnum judgeInfoMessageEnum = JudgeInfoMessageEnum.ACCEPTED;
+        JudgeInfo judgeInfoResponse = new JudgeInfo();
         JudgeInfo judgeInfo = judgeContext.getJudgeInfo();
+        if(judgeInfo==null){
+            judgeInfoMessageEnum = JudgeInfoMessageEnum.RUNTIME_ERROR;
+            judgeInfoResponse.setMemory(0L);
+            judgeInfoResponse.setTime(0L);
+            judgeInfoResponse.setMessage(judgeInfoMessageEnum.getValue());
+            return judgeInfoResponse;
+        }
         Long memory = Optional.ofNullable(judgeInfo.getMemory()).orElse(0L);
         Long time = Optional.ofNullable(judgeInfo.getTime()).orElse(0L);
         List<String> inputList = judgeContext.getInputList();
         List<String> outputList = judgeContext.getOutputList();
         Question question = judgeContext.getQuestion();
         List<JudgeCase> judgeCaseList = judgeContext.getJudgeCaseList();
-        JudgeInfoMessageEnum judgeInfoMessageEnum = JudgeInfoMessageEnum.ACCEPTED;
 
-        JudgeInfo judgeInfoResponse = new JudgeInfo();
         judgeInfoResponse.setMemory(memory);
         judgeInfoResponse.setTime(time);
 

@@ -2,9 +2,9 @@ package com.karlexyan.yoj.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.karlexyan.yoj.model.dto.question.QuestionQueryRequest;
 import com.karlexyan.yoj.model.entity.Question;
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.karlexyan.yoj.model.vo.QuestionVO;
 
 import javax.servlet.http.HttpServletRequest;
@@ -49,5 +49,6 @@ public interface QuestionService extends IService<Question> {
      * @return
      */
     Page<QuestionVO> getQuestionVOPage(Page<Question> questionPage, HttpServletRequest request);
+
 
 }
