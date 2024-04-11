@@ -16,10 +16,6 @@ public class ExaminationSubmitQueryRequest extends PageRequest implements Serial
      */
     private Long examinationId;
 
-    /**
-     * 套题标题
-     */
-    private String title;
 
     /**
      * 编程语言

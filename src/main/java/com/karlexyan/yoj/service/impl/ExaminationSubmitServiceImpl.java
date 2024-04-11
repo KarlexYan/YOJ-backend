@@ -140,7 +140,6 @@ public class ExaminationSubmitServiceImpl extends ServiceImpl<ExaminationSubmitM
     @Override
     public QueryWrapper<ExaminationSubmit> getQueryWrapper(ExaminationSubmitQueryRequest examinationSubmitQueryRequest) {
         Long examinationId = examinationSubmitQueryRequest.getExaminationId();
-        String title = examinationSubmitQueryRequest.getTitle();
         String submitLanguage = examinationSubmitQueryRequest.getSubmitLanguage();
         Integer submitState = examinationSubmitQueryRequest.getSubmitState();
         Long userId = examinationSubmitQueryRequest.getUserId();
@@ -154,8 +153,7 @@ public class ExaminationSubmitServiceImpl extends ServiceImpl<ExaminationSubmitM
 
         // 拼接查询条件
         queryWrapper.eq(ObjectUtil.isNotEmpty(submitLanguage), "submitLanguage", submitLanguage);
-        queryWrapper.eq(ObjectUtil.isNotEmpty(title), "title", title);
-        queryWrapper.eq(ObjectUtil.isNotEmpty(userId), "userId", userId);
+        queryWrapper.like(ObjectUtil.isNotEmpty(userId), "userId", userId);
         queryWrapper.eq(ObjectUtil.isNotEmpty(examinationId), "examinationId", examinationId);
         queryWrapper.eq(QuestionSubmitStatusEnum.getEnumByValue(submitState) != null, "submitState", submitState);
         queryWrapper.eq("isDelete", false);

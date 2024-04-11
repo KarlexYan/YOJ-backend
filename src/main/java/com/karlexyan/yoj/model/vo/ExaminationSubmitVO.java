@@ -14,14 +14,26 @@ public class ExaminationSubmitVO {
     private Long id;
 
     /**
-     * 创建套题用户 id
+     * 套题ID
      */
-    private Long userid;
+    private Long examinationId;
+
 
     /**
-     * 标题
+     * 创建套题用户 id
      */
-    private String title;
+    private Long userId;
+
+
+    /**
+     * 编程语言
+     */
+    private String submitLanguage;
+
+    /**
+     * 判题状态（0 - 待判题、1 - 判题中、2 - 成功、3 - 失败）
+     */
+    private Integer submitState;
 
     /**
      * 创建时间
