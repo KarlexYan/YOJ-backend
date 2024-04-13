@@ -12,6 +12,7 @@ import com.karlexyan.yoj.model.dto.questioncontact.QuestionContactAddRequest;
 import com.karlexyan.yoj.model.dto.questioncontact.QuestionContactQueryRequest;
 import com.karlexyan.yoj.model.entity.QuestionContact;
 import com.karlexyan.yoj.model.entity.User;
+import com.karlexyan.yoj.model.vo.QuestionContactVO;
 import com.karlexyan.yoj.service.QuestionContactService;
 import com.karlexyan.yoj.service.QuestionService;
 import com.karlexyan.yoj.service.UserService;
@@ -132,5 +133,24 @@ public class QuestionContactController {
         Page<QuestionContact> questionContactPage = questionContactService.page(new Page<>(current, size),
                 questionContactService.getQueryWrapper(questionContactQueryRequest));
         return ResultUtils.success(questionContactPage);
+    }
+
+    /**
+     * 分页获取列表（封装类）
+     *
+     * @param questionContactQueryRequest
+     * @param request
+     * @return
+     */
+    @PostMapping("/list/page/vo")
+    public BaseResponse<Page<QuestionContactVO>> listQuestionContactVOByPage(@RequestBody QuestionContactQueryRequest questionContactQueryRequest,
+                                                                      HttpServletRequest request) {
+        long current = questionContactQueryRequest.getCurrent();
+        long size = questionContactQueryRequest.getPageSize();
+        // 限制爬虫
+        ThrowUtils.throwIf(size > 20, ErrorCode.PARAMS_ERROR);
+        Page<QuestionContact> questionContactPage = questionContactService.page(new Page<>(current, size),
+                questionContactService.getQueryWrapper(questionContactQueryRequest));
+        return ResultUtils.success(questionContactService.getQuestionContactVOPage(questionContactPage, request));
     }
 }

@@ -2,9 +2,13 @@ package com.karlexyan.yoj.service;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.karlexyan.yoj.model.dto.questioncontact.QuestionContactQueryRequest;
 import com.karlexyan.yoj.model.entity.QuestionContact;
+import com.karlexyan.yoj.model.vo.QuestionContactVO;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
 * @author KarlexYan
@@ -20,4 +24,13 @@ public interface QuestionContactService extends IService<QuestionContact> {
      * @return
      */
     QueryWrapper<QuestionContact> getQueryWrapper(QuestionContactQueryRequest questionContactQueryRequest);
+
+    /**
+     * 分页获取题目评论封装
+     *
+     * @param questionContactPage
+     * @param request
+     * @return
+     */
+    Page<QuestionContactVO> getQuestionContactVOPage(Page<QuestionContact> questionContactPage, HttpServletRequest request);
 }

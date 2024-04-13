@@ -1,16 +1,28 @@
 package com.karlexyan.yoj.service.impl;
 
 
+import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.karlexyan.yoj.constant.CommonConstant;
 import com.karlexyan.yoj.mapper.QuestionContactMapper;
 import com.karlexyan.yoj.model.dto.questioncontact.QuestionContactQueryRequest;
 import com.karlexyan.yoj.model.entity.QuestionContact;
+import com.karlexyan.yoj.model.entity.User;
+import com.karlexyan.yoj.model.vo.QuestionContactVO;
 import com.karlexyan.yoj.service.QuestionContactService;
+import com.karlexyan.yoj.service.UserService;
 import com.karlexyan.yoj.utils.SqlUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
 * @author KarlexYan
@@ -20,6 +32,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class QuestionContactServiceImpl extends ServiceImpl<QuestionContactMapper, QuestionContact>
     implements QuestionContactService {
+
+    @Resource
+    private UserService userService;
 
     /**
      * 获取查询条件
@@ -44,6 +59,32 @@ public class QuestionContactServiceImpl extends ServiceImpl<QuestionContactMappe
         queryWrapper.orderBy(SqlUtils.validSortField(sortField), sortOrder.equals(CommonConstant.SORT_ORDER_ASC),
                 sortField);
         return queryWrapper;
+    }
+
+    @Override
+    public Page<QuestionContactVO> getQuestionContactVOPage(Page<QuestionContact> questionContactPage, HttpServletRequest request) {
+        List<QuestionContact> questionContactList = questionContactPage.getRecords();
+        Page<QuestionContactVO> questionContactVOPage = new Page<>(questionContactPage.getCurrent(), questionContactPage.getSize(), questionContactPage.getTotal());
+        if (CollUtil.isEmpty(questionContactList)) {
+            return questionContactVOPage;
+        }
+        // 1. 关联查询用户信息
+        Set<Long> userIdSet = questionContactList.stream().map(QuestionContact::getUserId).collect(Collectors.toSet());
+        Map<Long, List<User>> userIdUserListMap = userService.listByIds(userIdSet).stream()
+                .collect(Collectors.groupingBy(User::getId));
+        // 填充信息
+        List<QuestionContactVO> questionContactVOList = questionContactList.stream().map(questionContact -> {
+            QuestionContactVO questionContactVO = QuestionContactVO.objToVo(questionContact);
+            Long userId = questionContact.getUserId();
+            User user = null;
+            if (userIdUserListMap.containsKey(userId)) {
+                user = userIdUserListMap.get(userId).get(0);
+            }
+            questionContactVO.setUserVO(userService.getUserVO(user));
+            return questionContactVO;
+        }).collect(Collectors.toList());
+        questionContactVOPage.setRecords(questionContactVOList);
+        return questionContactVOPage;
     }
 }
 
