@@ -7,14 +7,17 @@ import lombok.Data;
 import java.io.Serializable;
 import java.util.List;
 
+/**
+ * 更新请求
+ *
+ */
 @Data
 public class ExaminationQuestionUpdateRequest implements Serializable {
 
     /**
      * 套题题目ID
      */
-    private Long examinationQuestionId;
-
+    private Long id;
 
 
     /**
@@ -26,7 +29,6 @@ public class ExaminationQuestionUpdateRequest implements Serializable {
      * 内容
      */
     private String content;
-
 
     /**
      * 标签列表
@@ -47,6 +49,7 @@ public class ExaminationQuestionUpdateRequest implements Serializable {
      * 判题配置
      */
     private JudgeConfig judgeConfig;
+
 
     private static final long serialVersionUID = 1L;
 }

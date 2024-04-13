@@ -8,22 +8,20 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * 创建请求
- *
+ * 编辑请求
  */
 @Data
-public class ExaminationQuestionAddRequest implements Serializable {
+public class ExaminationQuestionEditRequest implements Serializable {
 
     /**
      * 套题id
      */
-    private Long examinationId;
+    private Long id;
 
     /**
      * 标题
      */
     private String title;
-
 
     /**
      * 内容

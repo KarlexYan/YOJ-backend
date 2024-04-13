@@ -7,7 +7,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * 套题题目关联表
+ * 套题题目表
  * @TableName examination_question
  */
 @TableName(value ="examination_question")
@@ -24,10 +24,61 @@ public class ExaminationQuestion implements Serializable {
      */
     private Long examinationId;
 
+
     /**
-     * 题目 id
+     * 创建题目用户 id
      */
-    private Long questionId;
+    private Long userId;
+
+    /**
+     * 标题
+     */
+    private String title;
+
+    /**
+     * 内容
+     */
+    private String content;
+
+    /**
+     * 标签列表（json 数组）
+     */
+    private String tags;
+
+    /**
+     * 题目答案
+     */
+    private String answer;
+
+    /**
+     * 判题用例（json 数组）
+     */
+    private String judgeCase;
+
+    /**
+     * 判题配置（json 对象）
+     */
+    private String judgeConfig;
+
+    /**
+     * 题目提交数
+     */
+    private Integer submitNum;
+
+    /**
+     * 题目通过数
+     */
+    private Integer acceptedNum;
+
+    /**
+     * 点赞数
+     */
+    private Integer thumbNum;
+
+    /**
+     * 收藏数
+     */
+    private Integer favourNum;
 
     /**
      * 创建时间
