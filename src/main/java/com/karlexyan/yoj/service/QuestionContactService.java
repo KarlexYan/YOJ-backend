@@ -1,7 +1,9 @@
 package com.karlexyan.yoj.service;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.karlexyan.yoj.model.dto.questioncontact.QuestionContactQueryRequest;
 import com.karlexyan.yoj.model.entity.QuestionContact;
 
 /**
@@ -11,4 +13,11 @@ import com.karlexyan.yoj.model.entity.QuestionContact;
 */
 public interface QuestionContactService extends IService<QuestionContact> {
 
+    /**
+     * 获取查询条件
+     *
+     * @param questionContactQueryRequest
+     * @return
+     */
+    QueryWrapper<QuestionContact> getQueryWrapper(QuestionContactQueryRequest questionContactQueryRequest);
 }
