@@ -6,9 +6,9 @@ import com.karlexyan.yoj.model.dto.user.UserQueryRequest;
 import com.karlexyan.yoj.model.entity.User;
 import com.karlexyan.yoj.model.vo.LoginUserVO;
 import com.karlexyan.yoj.model.vo.UserVO;
-import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
-import me.chanjar.weixin.common.bean.WxOAuth2UserInfo;
+import java.util.List;
 
 /**
  * 用户服务
@@ -24,7 +24,7 @@ public interface UserService extends IService<User> {
      * @param checkPassword 校验密码
      * @return 新用户 id
      */
-    long userRegister(String userAccount, String userPassword, String checkPassword);
+    long userRegister(String userAccount, String userName,String userPassword, String checkPassword);
 
     /**
      * 用户登录

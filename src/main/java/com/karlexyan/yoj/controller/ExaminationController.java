@@ -329,7 +329,7 @@ public class ExaminationController {
      * @param request
      * @return
      */
-    @PostMapping("/examination_question/list")
+    @PostMapping("/examination_question/list/vo")
     public BaseResponse<List<ExaminationQuestionVO>> listQuestionVOByExamination(@RequestBody ExaminationQuestionQueryRequest examinationQuestionQueryRequest, HttpServletRequest request){
         List<ExaminationQuestionVO> examinationQuestionVOList = new ArrayList<>();
         Long examinationId = examinationQuestionQueryRequest.getExaminationId();
@@ -346,7 +346,6 @@ public class ExaminationController {
             examinationQuestionVO.setExaminationQuestionId(examinationQuestion.getId());
             examinationQuestionVOList.add(examinationQuestionVO);
         });
-
         return ResultUtils.success(examinationQuestionVOList);
     }
 

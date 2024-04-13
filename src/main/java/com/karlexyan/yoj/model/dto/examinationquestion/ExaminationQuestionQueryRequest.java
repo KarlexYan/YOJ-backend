@@ -1,14 +1,11 @@
 package com.karlexyan.yoj.model.dto.examinationquestion;
 
-import com.karlexyan.yoj.common.PageRequest;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import java.io.Serializable;
 
 @Data
-@EqualsAndHashCode(callSuper = true)
-public class ExaminationQuestionQueryRequest extends PageRequest implements Serializable {
+public class ExaminationQuestionQueryRequest  implements Serializable {
 
 
     /**

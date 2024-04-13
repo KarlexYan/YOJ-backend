@@ -9,34 +9,19 @@ import com.karlexyan.yoj.common.ResultUtils;
 import com.karlexyan.yoj.constant.UserConstant;
 import com.karlexyan.yoj.exception.BusinessException;
 import com.karlexyan.yoj.exception.ThrowUtils;
-import com.karlexyan.yoj.model.dto.user.UserAddRequest;
-import com.karlexyan.yoj.model.dto.user.UserLoginRequest;
-import com.karlexyan.yoj.model.dto.user.UserQueryRequest;
-import com.karlexyan.yoj.model.dto.user.UserRegisterRequest;
-import com.karlexyan.yoj.model.dto.user.UserUpdateMyRequest;
-import com.karlexyan.yoj.model.dto.user.UserUpdateRequest;
+import com.karlexyan.yoj.model.dto.user.*;
 import com.karlexyan.yoj.model.entity.User;
 import com.karlexyan.yoj.model.vo.LoginUserVO;
 import com.karlexyan.yoj.model.vo.UserVO;
 import com.karlexyan.yoj.service.UserService;
-
-import java.util.List;
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import lombok.extern.slf4j.Slf4j;
-import me.chanjar.weixin.common.bean.WxOAuth2UserInfo;
-import me.chanjar.weixin.common.bean.oauth2.WxOAuth2AccessToken;
-import me.chanjar.weixin.mp.api.WxMpService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * 用户接口
@@ -64,12 +49,13 @@ public class UserController {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
         String userAccount = userRegisterRequest.getUserAccount();
+        String userName = userRegisterRequest.getUserName();
         String userPassword = userRegisterRequest.getUserPassword();
         String checkPassword = userRegisterRequest.getCheckPassword();
         if (StringUtils.isAnyBlank(userAccount, userPassword, checkPassword)) {
             return null;
         }
-        long result = userService.userRegister(userAccount, userPassword, checkPassword);
+        long result = userService.userRegister(userAccount, userName,userPassword, checkPassword);
         return ResultUtils.success(result);
     }
 
