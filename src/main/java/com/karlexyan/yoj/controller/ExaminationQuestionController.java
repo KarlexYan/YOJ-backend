@@ -93,7 +93,7 @@ public class ExaminationQuestionController {
      * @return
      */
     @PostMapping("/delete")
-    public BaseResponse<Boolean> deleteQuestion(@RequestBody DeleteRequest deleteRequest, HttpServletRequest request) {
+    public BaseResponse<Boolean> deleteExaminationQuestion(@RequestBody DeleteRequest deleteRequest, HttpServletRequest request) {
         if (deleteRequest == null || deleteRequest.getId() <= 0) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
@@ -118,7 +118,7 @@ public class ExaminationQuestionController {
      */
     @PostMapping("/update")
     @AuthCheck(mustRole = UserConstant.ADMIN_ROLE)
-    public BaseResponse<Boolean> updateQuestion(@RequestBody ExaminationQuestionUpdateRequest examinationQuestionUpdateRequest) {
+    public BaseResponse<Boolean> updateExaminationQuestion(@RequestBody ExaminationQuestionUpdateRequest examinationQuestionUpdateRequest) {
         if (examinationQuestionUpdateRequest == null || examinationQuestionUpdateRequest.getId() <= 0) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
@@ -231,7 +231,7 @@ public class ExaminationQuestionController {
      * @return
      */
     @PostMapping("/edit")
-    public BaseResponse<Boolean> editQuestion(@RequestBody ExaminationQuestionEditRequest examinationQuestionEditRequest, HttpServletRequest request) {
+    public BaseResponse<Boolean> editExaminationQuestion(@RequestBody ExaminationQuestionEditRequest examinationQuestionEditRequest, HttpServletRequest request) {
         if (examinationQuestionEditRequest == null || examinationQuestionEditRequest.getId() <= 0) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
@@ -275,7 +275,7 @@ public class ExaminationQuestionController {
         Long examinationId = examinationQuestionListQueryRequest.getExaminationId();
 
         QueryWrapper<ExaminationQuestion> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq(ObjectUtils.isNotEmpty(examinationId), "id", examinationId);
+        queryWrapper.eq(ObjectUtils.isNotEmpty(examinationId), "examinationId", examinationId);
 
         List<ExaminationQuestion> examinationQuestionList = examinationQuestionService.list(queryWrapper);
         return ResultUtils.success(examinationQuestionService.getExaminationQuestionVOList(examinationQuestionList, request));
