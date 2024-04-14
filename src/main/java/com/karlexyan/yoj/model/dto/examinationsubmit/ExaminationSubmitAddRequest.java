@@ -1,6 +1,6 @@
 package com.karlexyan.yoj.model.dto.examinationsubmit;
 
-import com.karlexyan.yoj.model.entity.QuestionSubmit;
+import com.karlexyan.yoj.model.entity.ExaminationQuestionSubmit;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -27,7 +27,7 @@ public class ExaminationSubmitAddRequest implements Serializable {
     /**
      * 提交题目信息
      */
-    private List<QuestionSubmit> questionSubmitList;
+    private List<ExaminationQuestionSubmit> examinationQuestionSubmitList;
 
 
     private static final long serialVersionUID = 1L;

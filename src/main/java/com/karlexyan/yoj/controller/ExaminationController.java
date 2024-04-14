@@ -14,7 +14,6 @@ import com.karlexyan.yoj.model.dto.examination.ExaminationAddRequest;
 import com.karlexyan.yoj.model.dto.examination.ExaminationEditRequest;
 import com.karlexyan.yoj.model.dto.examination.ExaminationQueryRequest;
 import com.karlexyan.yoj.model.dto.examination.ExaminationUpdateRequest;
-import com.karlexyan.yoj.model.dto.examinationsubmit.ExaminationSubmitAddRequest;
 import com.karlexyan.yoj.model.dto.examinationsubmit.ExaminationSubmitQueryRequest;
 import com.karlexyan.yoj.model.entity.Examination;
 import com.karlexyan.yoj.model.entity.ExaminationSubmit;
@@ -273,24 +272,7 @@ public class ExaminationController {
         return ResultUtils.success(result);
     }
 
-    /**
-     * 提交套题
-     *
-     * @param examinationSubmitAddRequest
-     * @param request
-     * @return 提交记录的 id
-     */
-    @PostMapping("/examination_submit/do")
-    public BaseResponse<Long> doExaminationSubmit(@RequestBody ExaminationSubmitAddRequest examinationSubmitAddRequest,
-                                               HttpServletRequest request) {
-        if (examinationSubmitAddRequest == null || examinationSubmitAddRequest.getExaminationId() <= 0) {
-            throw new BusinessException(ErrorCode.PARAMS_ERROR);
-        }
-        // 登录才能做题
-        final User loginUser = userService.getLoginUser(request);
-        long examinationSubmitId = examinationSubmitService.doExaminationSubmit(examinationSubmitAddRequest, loginUser);
-        return ResultUtils.success(examinationSubmitId);
-    }
+
 
     /**
      * 分页获取套题提交列表（除了管理员外，普通用户只能看到非答案、提交代码等公开信息）

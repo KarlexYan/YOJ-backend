@@ -1,5 +1,6 @@
 package com.karlexyan.yoj.judge;
 
+import com.karlexyan.yoj.model.entity.ExaminationQuestionSubmit;
 import com.karlexyan.yoj.model.entity.QuestionSubmit;
 
 /**
@@ -13,4 +14,7 @@ public interface JudgeService {
      * @return
      */
     QuestionSubmit doJudge(long questionSubmitId);
+
+
+    ExaminationQuestionSubmit doExaminationQuestionJudge(long examinationQuestionSubmitId);
 }

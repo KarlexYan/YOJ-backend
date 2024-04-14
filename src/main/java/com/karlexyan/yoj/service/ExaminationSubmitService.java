@@ -4,7 +4,6 @@ package com.karlexyan.yoj.service;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.karlexyan.yoj.model.dto.examinationsubmit.ExaminationSubmitAddRequest;
 import com.karlexyan.yoj.model.dto.examinationsubmit.ExaminationSubmitQueryRequest;
 import com.karlexyan.yoj.model.entity.ExaminationSubmit;
 import com.karlexyan.yoj.model.entity.User;
@@ -17,14 +16,7 @@ import com.karlexyan.yoj.model.vo.ExaminationSubmitVO;
 */
 public interface ExaminationSubmitService extends IService<ExaminationSubmit> {
 
-    /**
-     * 套题提交
-     *
-     * @param examinationSubmitAddRequest  套题提交信息
-     * @param loginUser
-     * @return
-     */
-    long doExaminationSubmit(ExaminationSubmitAddRequest examinationSubmitAddRequest, User loginUser);
+
 
     /**
      * 获取查询条件

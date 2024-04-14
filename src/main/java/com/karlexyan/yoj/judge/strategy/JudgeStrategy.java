@@ -13,4 +13,11 @@ public interface JudgeStrategy {
      * @return
      */
     JudgeInfo doJudge(JudgeContext judgeContext);
+
+    /**
+     * 执行套题判题
+     * @param judgeExaminationContext
+     * @return
+     */
+    JudgeInfo doExaminationJudge(JudgeExaminationContext judgeExaminationContext);
 }
