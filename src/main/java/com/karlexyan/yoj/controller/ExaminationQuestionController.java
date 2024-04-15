@@ -14,10 +14,12 @@ import com.karlexyan.yoj.exception.ThrowUtils;
 import com.karlexyan.yoj.model.dto.examinationquestion.*;
 import com.karlexyan.yoj.model.dto.question.JudgeCase;
 import com.karlexyan.yoj.model.dto.question.JudgeConfig;
+import com.karlexyan.yoj.model.entity.Examination;
 import com.karlexyan.yoj.model.entity.ExaminationQuestion;
 import com.karlexyan.yoj.model.entity.User;
 import com.karlexyan.yoj.model.vo.ExaminationQuestionVO;
 import com.karlexyan.yoj.service.ExaminationQuestionService;
+import com.karlexyan.yoj.service.ExaminationService;
 import com.karlexyan.yoj.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
@@ -39,6 +41,9 @@ public class ExaminationQuestionController {
     private UserService userService;
 
     @Resource
+    private ExaminationService examinationService;
+
+    @Resource
     private ExaminationQuestionService examinationQuestionService;
 
     private final static Gson GSON = new Gson();
@@ -55,6 +60,15 @@ public class ExaminationQuestionController {
         if (examinationAddRequest == null) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
+        if(examinationAddRequest.getExaminationId() == null){
+            throw new BusinessException(ErrorCode.PARAMS_ERROR);
+        }
+
+        Examination examination = examinationService.getById(examinationAddRequest.getExaminationId());
+        if(examination == null){
+            throw new BusinessException(ErrorCode.NOT_FOUND_ERROR);
+        }
+
         ExaminationQuestion examinationQuestion = new ExaminationQuestion();
         BeanUtils.copyProperties(examinationAddRequest, examinationQuestion);
         List<String> tags = examinationAddRequest.getTags();
