@@ -2,6 +2,7 @@ package com.karlexyan.yoj.mapper;
 
 import com.karlexyan.yoj.model.entity.Question;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Select;
 
 /**
 * @author KarlexYan
@@ -10,6 +11,9 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 * @Entity com.karlexyan.yoj.model.entity.Question
 */
 public interface QuestionMapper extends BaseMapper<Question> {
+
+    @Select("SELECT * from question where isDelete = 0 order by RAND() limit 1")
+    Question selectByRandom();
 
 }
 

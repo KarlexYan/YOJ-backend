@@ -10,6 +10,7 @@ import com.karlexyan.yoj.common.ResultUtils;
 import com.karlexyan.yoj.constant.UserConstant;
 import com.karlexyan.yoj.exception.BusinessException;
 import com.karlexyan.yoj.exception.ThrowUtils;
+import com.karlexyan.yoj.mapper.QuestionMapper;
 import com.karlexyan.yoj.model.dto.question.*;
 import com.karlexyan.yoj.model.dto.questionsubmit.QuestionSubmitAddRequest;
 import com.karlexyan.yoj.model.dto.questionsubmit.QuestionSubmitQueryRequest;
@@ -48,6 +49,8 @@ public class QuestionController {
 
     private final static Gson GSON = new Gson();
 
+    @Resource
+    private QuestionMapper questionMapper;
 
     /**
      * 创建
@@ -173,6 +176,15 @@ public class QuestionController {
             throw new BusinessException(ErrorCode.NO_AUTH_ERROR);
         }
         return ResultUtils.success(question);
+    }
+
+    @GetMapping("/get/vo/random")
+    public BaseResponse<QuestionVO> getQuestionVOByRandom(HttpServletRequest request){
+        Question question = questionMapper.selectByRandom();
+        if(question == null){
+            throw new BusinessException(ErrorCode.NOT_FOUND_ERROR);
+        }
+        return ResultUtils.success(questionService.getQuestionVO(question,request));
     }
 
     /**
