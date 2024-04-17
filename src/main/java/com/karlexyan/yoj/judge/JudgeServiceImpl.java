@@ -50,6 +50,7 @@ public class JudgeServiceImpl implements JudgeService{
     @Value("${codesandbox.type:example}")
     private String type;
 
+
     @Override
     public QuestionSubmit doJudge(long questionSubmitId) {
         //1. 传入题目的提交id，获取到对应的题目、提交信息（包含代码、编程语言等）
@@ -89,11 +90,12 @@ public class JudgeServiceImpl implements JudgeService{
                 .language(language)
                 .inputList(inputList)
                 .build();
-        ExecuteCodeResponse executeCodeResponse = codeSandbox.executeCode(executeCodeRequest);  // 执行
-        if(executeCodeResponse.getStatus() == null){
-            questionSubmitUpdate.setSubmitState(QuestionSubmitStatusEnum.FAILED.getValue());
-        }
+        ExecuteCodeResponse executeCodeResponse = codeSandbox.executeCode(executeCodeRequest);  // 执行，拿到执行后的响应信息
         List<String> outputList = executeCodeResponse.getOutputList();
+        // 根据返回结果走分支
+        Integer status = executeCodeResponse.getStatus();
+
+
         //5. 根据沙箱的执行结果，设置题目的判题状态和信息
         JudgeContext judgeContext = new JudgeContext();
         judgeContext.setJudgeInfo(executeCodeResponse.getJudgeInfo());
@@ -106,7 +108,11 @@ public class JudgeServiceImpl implements JudgeService{
         //6. 修改数据库中判题结果
         questionSubmitUpdate = new QuestionSubmit();
         questionSubmitUpdate.setId(questionSubmitId);
-        questionSubmitUpdate.setSubmitState(QuestionSubmitStatusEnum.SUCCEED.getValue());
+        if(status == QuestionSubmitStatusEnum.FAILED.getValue()){
+            questionSubmitUpdate.setSubmitState(QuestionSubmitStatusEnum.FAILED.getValue());
+        }else if(status == QuestionSubmitStatusEnum.SUCCEED.getValue()){
+            questionSubmitUpdate.setSubmitState(QuestionSubmitStatusEnum.SUCCEED.getValue());
+        }
         questionSubmitUpdate.setJudgeInfo(JSONUtil.toJsonStr(judgeInfo));
         update = questionSubmitService.updateById(questionSubmitUpdate);
         if (!update) {
