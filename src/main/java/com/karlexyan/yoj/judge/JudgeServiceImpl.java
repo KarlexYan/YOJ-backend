@@ -17,6 +17,7 @@ import com.karlexyan.yoj.model.entity.ExaminationQuestionSubmit;
 import com.karlexyan.yoj.model.entity.Question;
 import com.karlexyan.yoj.model.entity.QuestionSubmit;
 import com.karlexyan.yoj.model.enums.ExaminationQuestionSubmitStatusEnum;
+import com.karlexyan.yoj.model.enums.JudgeInfoMessageEnum;
 import com.karlexyan.yoj.model.enums.QuestionSubmitStatusEnum;
 import com.karlexyan.yoj.service.*;
 import org.springframework.beans.factory.annotation.Value;
@@ -113,6 +114,18 @@ public class JudgeServiceImpl implements JudgeService{
         }else if(status == QuestionSubmitStatusEnum.SUCCEED.getValue()){
             questionSubmitUpdate.setSubmitState(QuestionSubmitStatusEnum.SUCCEED.getValue());
         }
+
+        // 如果到这里答案还是Accepted，题目通过数+1
+        if(JudgeInfoMessageEnum.ACCEPTED.getValue().equals(judgeInfo.getMessage())){
+            Question updateQuestion = questionService.getById(questionId);
+            int acceptedNum = question.getAcceptedNum() + 1;
+            updateQuestion.setAcceptedNum(acceptedNum);
+            boolean b = questionService.updateById(updateQuestion);
+            if(!b){
+                throw new BusinessException(ErrorCode.OPERATION_ERROR, "数据保存失败");
+            }
+        }
+
         questionSubmitUpdate.setJudgeInfo(JSONUtil.toJsonStr(judgeInfo));
         update = questionSubmitService.updateById(questionSubmitUpdate);
         if (!update) {
