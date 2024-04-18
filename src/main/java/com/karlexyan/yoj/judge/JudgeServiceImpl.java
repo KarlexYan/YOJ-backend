@@ -111,6 +111,7 @@ public class JudgeServiceImpl implements JudgeService{
         questionSubmitUpdate.setId(questionSubmitId);
         if(status == QuestionSubmitStatusEnum.FAILED.getValue()){
             questionSubmitUpdate.setSubmitState(QuestionSubmitStatusEnum.FAILED.getValue());
+            judgeInfo.setMessage(JudgeInfoMessageEnum.COMPILE_ERROR.getValue());
         }else if(status == QuestionSubmitStatusEnum.SUCCEED.getValue()){
             questionSubmitUpdate.setSubmitState(QuestionSubmitStatusEnum.SUCCEED.getValue());
         }

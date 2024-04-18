@@ -22,19 +22,19 @@ public class JavaLanguageJudgeStrategy implements JudgeStrategy {
         JudgeInfo judgeInfo = judgeContext.getJudgeInfo();
         if (judgeInfo == null) {
             judgeInfoMessageEnum = JudgeInfoMessageEnum.RUNTIME_ERROR;
-            judgeInfoResponse.setMemory(0L);
+//            judgeInfoResponse.setMemory(0L);
             judgeInfoResponse.setTime(0L);
             judgeInfoResponse.setMessage(judgeInfoMessageEnum.getValue());
             return judgeInfoResponse;
         }
-        Long memory = Optional.ofNullable(judgeInfo.getMemory()).orElse(0L);
+//        Long memory = Optional.ofNullable(judgeInfo.getMemory()).orElse(0L);
         Long time = Optional.ofNullable(judgeInfo.getTime()).orElse(0L);
         List<String> inputList = judgeContext.getInputList();
         List<String> outputList = judgeContext.getOutputList();
         Question question = judgeContext.getQuestion();
         List<JudgeCase> judgeCaseList = judgeContext.getJudgeCaseList();
 
-        judgeInfoResponse.setMemory(memory);
+//        judgeInfoResponse.setMemory(memory);
         judgeInfoResponse.setTime(time);
 
         // 先判断沙箱执行的结果输出数量是否和预期输出数量相等
@@ -57,11 +57,11 @@ public class JavaLanguageJudgeStrategy implements JudgeStrategy {
         JudgeConfig judgeConfig = JSONUtil.toBean(judgeConfigStr, JudgeConfig.class);
         Long needMemoryLimit = judgeConfig.getMemoryLimit();
         Long needTimeLimit = judgeConfig.getTimeLimit();
-        if (memory > needMemoryLimit) {
-            judgeInfoMessageEnum = JudgeInfoMessageEnum.MEMORY_LIMIT_EXCEEDED;
-            judgeInfoResponse.setMessage(judgeInfoMessageEnum.getValue());
-            return judgeInfoResponse;
-        }
+//        if (memory > needMemoryLimit) {
+//            judgeInfoMessageEnum = JudgeInfoMessageEnum.MEMORY_LIMIT_EXCEEDED;
+//            judgeInfoResponse.setMessage(judgeInfoMessageEnum.getValue());
+//            return judgeInfoResponse;
+//        }
 
         // Java程序本身需要额外执行 1000ms
         long JAVA_PROGRAM_TIME_COST = 1000L;
@@ -83,19 +83,19 @@ public class JavaLanguageJudgeStrategy implements JudgeStrategy {
         JudgeInfo judgeInfo = judgeExaminationContext.getJudgeInfo();
         if (judgeInfo == null) {
             judgeInfoMessageEnum = JudgeInfoMessageEnum.RUNTIME_ERROR;
-            judgeInfoResponse.setMemory(0L);
+//            judgeInfoResponse.setMemory(0L);
             judgeInfoResponse.setTime(0L);
             judgeInfoResponse.setMessage(judgeInfoMessageEnum.getValue());
             return judgeInfoResponse;
         }
-        Long memory = Optional.ofNullable(judgeInfo.getMemory()).orElse(0L);
+//        Long memory = Optional.ofNullable(judgeInfo.getMemory()).orElse(0L);
         Long time = Optional.ofNullable(judgeInfo.getTime()).orElse(0L);
         List<String> inputList = judgeExaminationContext.getInputList();
         List<String> outputList = judgeExaminationContext.getOutputList();
         ExaminationQuestion examinationQuestion = judgeExaminationContext.getExaminationQuestion();
         List<JudgeCase> judgeCaseList = judgeExaminationContext.getJudgeCaseList();
 
-        judgeInfoResponse.setMemory(memory);
+//        judgeInfoResponse.setMemory(memory);
         judgeInfoResponse.setTime(time);
 
         // 先判断沙箱执行的结果输出数量是否和预期输出数量相等
@@ -118,11 +118,11 @@ public class JavaLanguageJudgeStrategy implements JudgeStrategy {
         JudgeConfig judgeConfig = JSONUtil.toBean(judgeConfigStr, JudgeConfig.class);
         Long needMemoryLimit = judgeConfig.getMemoryLimit();
         Long needTimeLimit = judgeConfig.getTimeLimit();
-        if (memory > needMemoryLimit) {
-            judgeInfoMessageEnum = JudgeInfoMessageEnum.MEMORY_LIMIT_EXCEEDED;
-            judgeInfoResponse.setMessage(judgeInfoMessageEnum.getValue());
-            return judgeInfoResponse;
-        }
+//        if (memory > needMemoryLimit) {
+//            judgeInfoMessageEnum = JudgeInfoMessageEnum.MEMORY_LIMIT_EXCEEDED;
+//            judgeInfoResponse.setMessage(judgeInfoMessageEnum.getValue());
+//            return judgeInfoResponse;
+//        }
 
         // Java程序本身需要额外执行 1000ms
         long JAVA_PROGRAM_TIME_COST = 1000L;

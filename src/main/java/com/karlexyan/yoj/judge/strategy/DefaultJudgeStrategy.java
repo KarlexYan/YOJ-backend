@@ -20,7 +20,7 @@ public class DefaultJudgeStrategy implements JudgeStrategy {
     @Override
     public JudgeInfo doJudge(JudgeContext judgeContext) {
         JudgeInfo judgeInfo = judgeContext.getJudgeInfo();
-        Long memory = judgeInfo.getMemory();
+//        Long memory = judgeInfo.getMemory();
         Long time = judgeInfo.getTime();
         List<String> inputList = judgeContext.getInputList();
         List<String> outputList = judgeContext.getOutputList();
@@ -30,7 +30,7 @@ public class DefaultJudgeStrategy implements JudgeStrategy {
         // 返回结果
         JudgeInfoMessageEnum judgeInfoMessageEnum = JudgeInfoMessageEnum.ACCEPTED;
         JudgeInfo judgeInfoResponse = new JudgeInfo();
-        judgeInfoResponse.setMemory(memory);
+//        judgeInfoResponse.setMemory(memory);
         judgeInfoResponse.setTime(time);
 
         // 先判断沙箱执行的结果输出数量是否和预期输出数量相等
@@ -54,11 +54,11 @@ public class DefaultJudgeStrategy implements JudgeStrategy {
         JudgeConfig judgeConfig = JSONUtil.toBean(judgeConfigStr, JudgeConfig.class);
         Long needMemoryLimit = judgeConfig.getMemoryLimit();
         Long needTimeLimit = judgeConfig.getTimeLimit();
-        if (memory > needMemoryLimit) {
-            judgeInfoMessageEnum = JudgeInfoMessageEnum.MEMORY_LIMIT_EXCEEDED;
-            judgeInfoResponse.setMessage(judgeInfoMessageEnum.getValue());
-            return judgeInfoResponse;
-        }
+//        if (memory > needMemoryLimit) {
+//            judgeInfoMessageEnum = JudgeInfoMessageEnum.MEMORY_LIMIT_EXCEEDED;
+//            judgeInfoResponse.setMessage(judgeInfoMessageEnum.getValue());
+//            return judgeInfoResponse;
+//        }
         if (time > needTimeLimit) {
             judgeInfoMessageEnum = JudgeInfoMessageEnum.TIME_LIMIT_EXCEEDED;
             judgeInfoResponse.setMessage(judgeInfoMessageEnum.getValue());
@@ -73,7 +73,7 @@ public class DefaultJudgeStrategy implements JudgeStrategy {
     @Override
     public JudgeInfo doExaminationJudge(JudgeExaminationContext judgeExaminationContext) {
         JudgeInfo judgeInfo = judgeExaminationContext.getJudgeInfo();
-        Long memory = judgeInfo.getMemory();
+//        Long memory = judgeInfo.getMemory();
         Long time = judgeInfo.getTime();
         List<String> inputList = judgeExaminationContext.getInputList();
         List<String> outputList = judgeExaminationContext.getOutputList();
@@ -83,7 +83,7 @@ public class DefaultJudgeStrategy implements JudgeStrategy {
         // 返回结果
         JudgeInfoMessageEnum judgeInfoMessageEnum = JudgeInfoMessageEnum.ACCEPTED;
         JudgeInfo judgeInfoResponse = new JudgeInfo();
-        judgeInfoResponse.setMemory(memory);
+//        judgeInfoResponse.setMemory(memory);
         judgeInfoResponse.setTime(time);
 
         // 先判断沙箱执行的结果输出数量是否和预期输出数量相等
@@ -107,11 +107,11 @@ public class DefaultJudgeStrategy implements JudgeStrategy {
         JudgeConfig judgeConfig = JSONUtil.toBean(judgeConfigStr, JudgeConfig.class);
         Long needMemoryLimit = judgeConfig.getMemoryLimit();
         Long needTimeLimit = judgeConfig.getTimeLimit();
-        if (memory > needMemoryLimit) {
-            judgeInfoMessageEnum = JudgeInfoMessageEnum.MEMORY_LIMIT_EXCEEDED;
-            judgeInfoResponse.setMessage(judgeInfoMessageEnum.getValue());
-            return judgeInfoResponse;
-        }
+//        if (memory > needMemoryLimit) {
+//            judgeInfoMessageEnum = JudgeInfoMessageEnum.MEMORY_LIMIT_EXCEEDED;
+//            judgeInfoResponse.setMessage(judgeInfoMessageEnum.getValue());
+//            return judgeInfoResponse;
+//        }
         if (time > needTimeLimit) {
             judgeInfoMessageEnum = JudgeInfoMessageEnum.TIME_LIMIT_EXCEEDED;
             judgeInfoResponse.setMessage(judgeInfoMessageEnum.getValue());

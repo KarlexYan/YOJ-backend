@@ -21,5 +21,5 @@ public class JudgeInfo {
     /**
      * // 消耗内存，单位为 kb
      */
-    private Long memory;
+//    private Long memory;
 }
